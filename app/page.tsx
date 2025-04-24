@@ -6,7 +6,7 @@ import Header from "@/components/header";
 import NoteEditor from "@/components/note-editor";
 import NoteView from "@/components/note-view";
 import NotesSidebar from "@/components/notes-sidebar";
-import { saveNotes } from "@/lib/storage";
+import { loadNotes, saveNotes } from "@/lib/storage";
 import { Note } from "@/lib/types";
 import { useEffect, useState } from "react";
 
@@ -16,6 +16,11 @@ export default function Home() {
   const[notes, setNotes] = useState<Note[]>([]);
   const [activeNote, setActiveNote] = useState<Note | null>(null);
   const[isEditing, setIsEditing] = useState(false);
+
+
+  useEffect(()=>{
+    setNotes(loadNotes());
+  },[]);
 
 
   useEffect(()=>{
