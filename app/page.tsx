@@ -1,12 +1,14 @@
 "use client";
 
 
+import EmptyState from "@/components/empty-state";
 import Header from "@/components/header";
 import NoteEditor from "@/components/note-editor";
 import NoteView from "@/components/note-view";
 import NotesSidebar from "@/components/notes-sidebar";
+import { saveNotes } from "@/lib/storage";
 import { Note } from "@/lib/types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 
 export default function Home() {
@@ -14,6 +16,12 @@ export default function Home() {
   const[notes, setNotes] = useState<Note[]>([]);
   const [activeNote, setActiveNote] = useState<Note | null>(null);
   const[isEditing, setIsEditing] = useState(false);
+
+
+  useEffect(()=>{
+    saveNotes(notes);
+  },[notes]);
+
 
   const createNewNote = () => {
     const newNote:Note = {
@@ -43,9 +51,30 @@ export default function Home() {
       setIsEditing(false);
   }
 
+  const deleteNote = (id:string) => {
+    setNotes(notes.filter(note => note.id !== id));
+    if(activeNote && activeNote.id === id){
+      setActiveNote(null);
+      setIsEditing(false);
+
+    }
+  }
 
   const renderNoteContent=() => {
     
+    if(!activeNote && notes.length === 0){
+      return (
+        <EmptyState 
+        message="Create your first note to get started"
+        buttonText="New Note"
+        onButtonClick={createNewNote}
+        />
+      )
+    }
+
+
+
+
     if(activeNote && isEditing){
       return <NoteEditor note={activeNote} onSave={saveNote} onCancel={cancelEdit}/>
     }
@@ -53,7 +82,7 @@ export default function Home() {
 
 
     if(activeNote){
-      return<div><NoteView note={activeNote}/></div>
+      return<div><NoteView note={activeNote} onEdit={()=> setIsEditing(true)}/></div>
     }
     return null;
   };
@@ -65,9 +94,9 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
       <Header onNewNote={createNewNote}/>
-      <main className="container mx-auto p-4 grid grid-cols-1 md:grid-cols-3 gap-6">
+      <main className="container mx-auto p-4 grid grid-cols-1 md:grid-cols-3 gap-6 flex-1">
         <div className=" md:col-span-1">
-          <NotesSidebar notes={notes} onSelectNote={selectNote}/>
+          <NotesSidebar createNewNote={createNewNote} notes={notes} onSelectNote={selectNote} onDeleteNote={deleteNote} activeNoteId={activeNote?.id}/>
         </div>
         <div className="md:col-span-2">{renderNoteContent()}</div>
 

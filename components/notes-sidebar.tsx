@@ -10,30 +10,37 @@ import { Note } from '@/lib/types';
 import { Button } from './ui/button';
 import { formatDate } from '@/lib/storage';
 import { Trash2 } from 'lucide-react';
+import { ScrollArea } from './ui/scroll-area';
 
 
 interface NotesSidebarProps {
     notes: Note[];
     onSelectNote: (note: Note) => void;
+    createNewNote: () => void;
+    onDeleteNote: (id: string) => void;
+    activeNoteId?:string;
 }
 
   
-function NotesSidebar({ notes,onSelectNote }: NotesSidebarProps) {
+function NotesSidebar({ notes,onSelectNote,createNewNote,onDeleteNote,activeNoteId }: NotesSidebarProps) {
+ 
+
   return (
-    <Card>
+    <Card className='h-full'>
       <CardHeader>
         <CardTitle>My Notes</CardTitle>
       </CardHeader>
       <CardContent>
         {notes.length === 0 ? (
-          <EmptyState message="No Notes Yet" buttonText="Create your first note" />
+          <EmptyState message="No Notes Yet" buttonText="Create your first note" onButtonClick={createNewNote} />
         ) : (
-          <div>
+          <ScrollArea className="h-[calc(100vh-250px)]">
+            <div>
             {notes.map((note) => (
               <div
                 key={note.id}
                 onClick={() => onSelectNote(note)}
-                className="p-3 rounded-md cursor-pointer hover:bg-accent transition-colors"
+                className={`p-3 rounded-md cursor-pointer hover:bg-accent transition-colors  ${activeNoteId === note.id ? "bg-accent":""} `}
               >
                 <div className="flex items-center justify-between">
                   <div>
@@ -53,6 +60,9 @@ function NotesSidebar({ notes,onSelectNote }: NotesSidebarProps) {
                     variant="ghost"
                     size="icon"
                     className='h-8 w-8 text-muted-foreground hover:text-destructive cursor-pointer'
+                    onClick={(e)=>{
+                      e.stopPropagation();
+                       onDeleteNote(note.id)}}
                   >
                     <Trash2 className='h-4 w-4'/>
                   </Button>
@@ -60,6 +70,8 @@ function NotesSidebar({ notes,onSelectNote }: NotesSidebarProps) {
               </div>
             ))}
           </div>
+          </ScrollArea>
+          
         )}
       </CardContent>
     </Card>

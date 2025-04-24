@@ -1,15 +1,18 @@
 import { Note } from "@/lib/types"
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card"
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "./ui/card"
 import { format } from "path"
 import { formatDate } from "@/lib/storage"
+import { Button } from "./ui/button"
+import { ScrollArea } from "./ui/scroll-area"
 
 interface NoteViewProps {
     note:Note
+    onEdit: () => void
 }
 
 
 
-export default function NoteView({ note }: NoteViewProps) {
+export default function NoteView({ note,onEdit }: NoteViewProps) {
   return (
     <Card>
         <CardHeader>
@@ -21,8 +24,16 @@ export default function NoteView({ note }: NoteViewProps) {
             </p>
         </CardHeader>
         <CardContent>
-            {note.content}
+            <ScrollArea className="h-[calc(100vh-350px)]">
+                <div>{note.content}</div>
+            </ScrollArea>
+            
+        
         </CardContent>
+        <CardFooter className="flex justify-end">
+            <Button onClick={onEdit}>Edit Note</Button>
+
+        </CardFooter>
     </Card>
   )
 }
