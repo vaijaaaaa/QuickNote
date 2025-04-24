@@ -14,10 +14,11 @@ import { Trash2 } from 'lucide-react';
 
 interface NotesSidebarProps {
     notes: Note[];
+    onSelectNote: (note: Note) => void;
 }
 
   
-function NotesSidebar({ notes }: NotesSidebarProps) {
+function NotesSidebar({ notes,onSelectNote }: NotesSidebarProps) {
   return (
     <Card>
       <CardHeader>
@@ -31,6 +32,7 @@ function NotesSidebar({ notes }: NotesSidebarProps) {
             {notes.map((note) => (
               <div
                 key={note.id}
+                onClick={() => onSelectNote(note)}
                 className="p-3 rounded-md cursor-pointer hover:bg-accent transition-colors"
               >
                 <div className="flex items-center justify-between">

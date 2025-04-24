@@ -2,6 +2,7 @@
 
 
 import Header from "@/components/header";
+import NoteView from "@/components/note-view";
 import NotesSidebar from "@/components/notes-sidebar";
 import { Note } from "@/lib/types";
 import { useState } from "react";
@@ -10,7 +11,7 @@ import { useState } from "react";
 export default function Home() {
 
   const[notes, setNotes] = useState<Note[]>([]);
-  console.log(notes);
+  const [activeNote, setActiveNote] = useState<Note | null>(null);
   
 
   const createNewNote = () => {
@@ -24,6 +25,17 @@ export default function Home() {
     
   };
 
+  const selectNote = (note: Note) => {
+    setActiveNote(note);
+  };
+
+  const renderNoteContent=() => {
+    if(activeNote){
+      return<div><NoteView note={activeNote}/></div>
+    }
+    return null;
+  };
+
 
 
 
@@ -33,9 +45,9 @@ export default function Home() {
       <Header onNewNote={createNewNote}/>
       <main className="container mx-auto p-4 grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className=" md:col-span-1">
-          <NotesSidebar notes={notes}/>
+          <NotesSidebar notes={notes} onSelectNote={selectNote}/>
         </div>
-        <div className="bg-red-500 md:col-span-2">right</div>
+        <div className="md:col-span-2">{renderNoteContent()}</div>
 
       </main>
     </div>
