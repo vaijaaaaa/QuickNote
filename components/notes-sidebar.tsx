@@ -2,15 +2,20 @@ import React from 'react'
 import {
     Card,
     CardContent,
-    CardDescription,
-    CardFooter,
     CardHeader,
     CardTitle,
   } from "@/components/ui/card"
 import EmptyState from './empty-state';
+import { Note } from '@/lib/types';
+
+
+interface NotesSidebarProps {
+    notes: Note[];
+}
+
   
-function NotesSidebar() {
-    const notes = [];
+function NotesSidebar({notes}: NotesSidebarProps) {
+  
   return (
     <Card>
     <CardHeader>
@@ -18,7 +23,7 @@ function NotesSidebar() {
     </CardHeader>
     <CardContent>
     {notes.length === 0 ? (
-        <EmptyState/>
+        <EmptyState message='No Notes Yet ' buttonText='Create your first note'/>
     ):(
         <h1>list of the notes</h1>
     )}
