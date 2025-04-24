@@ -56,10 +56,12 @@ Make sure you have the following installed:
 ```
 
 ## 📸 Screenshots
+![Screenshot 2025-04-24 205035](https://github.com/user-attachments/assets/a889aa0d-ed13-4b02-8744-3006761d1cd2)
+![Screenshot 2025-04-24 205239](https://github.com/user-attachments/assets/dd8d2255-4fee-43bb-bf1c-162f8118295e)
+![Screenshot 2025-04-24 205432](https://github.com/user-attachments/assets/679648fd-ded2-413a-8be6-da51f5593675)
 
-| Home View | Add Note |
-|-----------|----------|
-| ![Home View](https://via.placeholder.com/400x200?text=Home+View) | ![Add Note](https://via.placeholder.com/400x200?text=Add+Note) |
+
+
 
 ## 🧠 Learnings
 
