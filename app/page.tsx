@@ -2,6 +2,7 @@
 
 
 import Header from "@/components/header";
+import NoteEditor from "@/components/note-editor";
 import NoteView from "@/components/note-view";
 import NotesSidebar from "@/components/notes-sidebar";
 import { Note } from "@/lib/types";
@@ -12,7 +13,7 @@ export default function Home() {
 
   const[notes, setNotes] = useState<Note[]>([]);
   const [activeNote, setActiveNote] = useState<Note | null>(null);
-  
+  const[isEditing, setIsEditing] = useState(false);
 
   const createNewNote = () => {
     const newNote:Note = {
@@ -22,14 +23,35 @@ export default function Home() {
       createdAt:Date.now(),
     };
     setNotes([newNote, ...notes]);
+    setActiveNote(newNote);
+    setIsEditing(true);
     
   };
 
   const selectNote = (note: Note) => {
     setActiveNote(note);
+    setIsEditing(false);
   };
 
+  const cancelEdit = () => {
+    setIsEditing(false);
+  }
+
+  const saveNote =(updatedNote:Note) =>{
+      setNotes(notes.map(note =>(note.id === updatedNote.id ? updatedNote : note)));
+      setActiveNote(updatedNote);
+      setIsEditing(false);
+  }
+
+
   const renderNoteContent=() => {
+    
+    if(activeNote && isEditing){
+      return <NoteEditor note={activeNote} onSave={saveNote} onCancel={cancelEdit}/>
+    }
+
+
+
     if(activeNote){
       return<div><NoteView note={activeNote}/></div>
     }
