@@ -8,6 +8,8 @@ import {
 import EmptyState from './empty-state';
 import { Note } from '@/lib/types';
 import { Button } from './ui/button';
+import { formatDate } from '@/lib/storage';
+import { Trash2 } from 'lucide-react';
 
 
 interface NotesSidebarProps {
@@ -42,10 +44,16 @@ function NotesSidebar({ notes }: NotesSidebarProps) {
                       {note.content.length > 40 ? '...' : ''}
                     </p>
                     <p className='text-sm text-muted-foreground'>
-                     {note.createdAt}
+                     {formatDate(note.createdAt)}
                      </p>
                   </div>
-                  <Button>remove</Button>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className='h-8 w-8 text-muted-foreground hover:text-destructive cursor-pointer'
+                  >
+                    <Trash2 className='h-4 w-4'/>
+                  </Button>
                 </div>
               </div>
             ))}
