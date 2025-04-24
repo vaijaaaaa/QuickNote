@@ -1,6 +1,5 @@
 import { Note } from "@/lib/types"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "./ui/card"
-import { format } from "path"
 import { formatDate } from "@/lib/storage"
 import { Button } from "./ui/button"
 import { ScrollArea } from "./ui/scroll-area"
